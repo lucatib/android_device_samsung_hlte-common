@@ -290,7 +290,7 @@
     <!-- <bool name="config_enableTorch">true</bool> -->
 
     <!-- Boolean to enable stylus gestures -->
-    <bool name="config_stylusGestures">true</bool>
+    <!--bool name="config_stylusGestures">true</bool-->
 
     <!-- Indicate whether closing the lid causes the device to go to sleep and opening
          it causes the device to wake up.
