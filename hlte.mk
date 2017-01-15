@@ -81,8 +81,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/izat.conf:/system/etc/izat.conf
 
 # Gello
-PRODUCT_PACKAGES += \
-    Gello
+#PRODUCT_PACKAGES += \
+#    Gello
 
 # Input device
 PRODUCT_COPY_FILES += \
@@ -127,8 +127,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/libnfc-brcm.conf:system/etc/libnfc-brcm.conf
 
 # Kryten2k35 OTAUpdates
-PRODUCT_PACKAGES += \
-    OTAUpdates
+#PRODUCT_PACKAGES += \
+#    OTAUpdates
 
 # Radio
 PRODUCT_PACKAGES += \
