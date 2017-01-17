@@ -39,3 +39,5 @@
 /efs/FactoryApp(/.*)?  					u:object_r:efs_file:s0
 /efs/imei	  					u:object_r:efs_file:s0
 /efs/mps_code.dat					u:object_r:efs_file:s0
+/data/data/com.android.providers.telephony/databases(/.*)?     u:object_r:radio_data_file:s0
+/data/data/com.android.providers.telephony/shared_prefs(/.*)? u:object_r:radio_data_file:s0
