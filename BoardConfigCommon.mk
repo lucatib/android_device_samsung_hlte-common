@@ -62,6 +62,10 @@ TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS:= true
 BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
 BOARD_HARDWARE_CLASS += device/samsung/hlte-common/cmhw
 
+# GPS
+TARGET_NO_RPC := true
+USE_DEVICE_SPECIFIC_GPS := true
+
 # RIL
 BOARD_RIL_CLASS := ../../../device/samsung/hlte-common/ril
 

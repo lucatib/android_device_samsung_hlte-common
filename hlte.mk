@@ -63,10 +63,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     SamsungDoze
 
-# GPS
-PRODUCT_PACKAGES += \
-    gps.msm8974
-
 # camera
 PRODUCT_PACKAGES += \
     camera.msm8974 \
@@ -74,12 +70,24 @@ PRODUCT_PACKAGES += \
     libxml2 \
     Snap
 
+#mo more used msm gps service
+# GPS
+#PRODUCT_PACKAGES += \
+    gps.msm8974
+
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/gps.conf:/system/etc/gps.conf \
+    $(LOCAL_PATH)/configs/flp.conf:/system/etc/flp.conf \
+    $(LOCAL_PATH)/configs/sap.conf:/system/etc/sap.conf \
+    $(LOCAL_PATH)/configs/izat.conf:/system/etc/izat.conf
+
+#PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/gps.conf:/system/etc/gps.conf \
     $(LOCAL_PATH)/gps/etc/flp.conf:/system/etc/flp.conf \
     $(LOCAL_PATH)/gps/etc/sap.conf:/system/etc/sap.conf \
     $(LOCAL_PATH)/gps/etc/izat.conf:/system/etc/izat.conf
 
+#killed forever
 # Gello
 #PRODUCT_PACKAGES += \
 #    Gello
@@ -88,6 +96,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/idc/sec_e-pen.idc:system/usr/idc/sec_e-pen.idc
 
+#moved in android/hardware/samsung
 # IR
 PRODUCT_PACKAGES += \
     consumerir.msm8974
@@ -134,6 +143,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libril_shim
 
+#access point list
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/apns-conf.xml:system/etc/apns-conf.xml
+    
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
