@@ -70,9 +70,8 @@ PRODUCT_PACKAGES += \
     libxml2 \
     Snap
 
-#mo more used msm gps service
 # GPS
-#PRODUCT_PACKAGES += \
+PRODUCT_PACKAGES += \
     gps.msm8974
 
 PRODUCT_COPY_FILES += \
