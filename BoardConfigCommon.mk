@@ -19,32 +19,28 @@ LOCAL_PATH := device/samsung/hlte-common
 
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
-# Compiler
-# L1/L2 cache size parameters by @JustArchi
-BOARD_GLOBAL_CFLAGS := --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048
-
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 
 # Kernel
-BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F androidboot.bootdevice=msm_sdcc.1 androidboot.selinux=permissive
+BOARD_KERNEL_IMAGE_NAME := zImage-dtb
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02900000 --tags_offset 0x02700000
+LZMA_RAMDISK_TARGETS := recovery
 TARGET_KERNEL_CONFIG := msm8974_sec_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 TARGET_KERNEL_VARIANT_CONFIG := msm8974_sec_hlte_eur_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/hlte
-#TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := armv7a-hardfloat-linux-gnueabi-
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 
 # Audio
 QCOM_CSDCLIENT_ENABLED := false
-AUDIO_FEATURE_LOW_LATENCY_PRIMARY := false
-AUDIO_FEATURE_ENABLED_HWDEP_CAL := false
-AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := false
+AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
+AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
+AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
 
 # Bluetooth
 BOARD_CUSTOM_BT_CONFIG := $(LOCAL_PATH)/bluetooth/vnd_hlte.txt
@@ -52,22 +48,17 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 BOARD_HAVE_BLUETOOTH_BCM := true
 
+# ANT+
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+
 # Camera
 TARGET_PROVIDES_CAMERA_HAL := true
 TARGET_USE_COMPAT_GRALLOC_ALIGN := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
-# Legacy BLOB Support
-TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS:= true
-#USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY:= true
-
 # CMHW
-BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
 BOARD_HARDWARE_CLASS += device/samsung/hlte-common/cmhw
-
-# GPS
-TARGET_NO_RPC := true
-USE_DEVICE_SPECIFIC_GPS := true
+BOARD_HARDWARE_CLASS += hardware/samsung/cmhw
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/samsung/hlte-common/ril
@@ -75,8 +66,13 @@ BOARD_RIL_CLASS := ../../../device/samsung/hlte-common/ril
 # Graphics
 TARGET_HAVE_NEW_GRALLOC := true
 
-# Lights
-TARGET_PROVIDES_LIBLIGHT := true
+# Display
+SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
+VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
+
+# Legacy BLOB Support
+TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
+TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 
 # NFC
 BOARD_NFC_HAL_SUFFIX := msm8974
@@ -93,12 +89,14 @@ BOARD_RECOVERY_SWIPE := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_USES_MMCUTILS := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
 
 # SELinux
 -include device/qcom/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_UNION += macloader.te
 BOARD_SEPOLICY_DIRS += device/samsung/hlte-common/sepolicy
+
+# Sensors
+TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # Wifi
 BOARD_HAVE_SAMSUNG_WIFI := true
@@ -114,3 +112,5 @@ WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin 
 WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA     := "/system/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
+WIFI_DRIVER_NVRAM_PATH_PARAM:= "/sys/module/dhd/parameters/nvram_path"
+WIFI_DRIVER_NVRAM_PATH      := "/system/etc/wifi/nvram_net.txt"

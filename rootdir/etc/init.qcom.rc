@@ -31,77 +31,10 @@ import init.target.rc
 on early-init
     setprop sys.boot_completed 0
 
-    export LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
+    export LD_SHIM_LIBS /system/lib/libril.so|libshim_ril.so
 
-    # efs 
-    chmod 0660 /dev/block/mmcblk0p11
-    chown system system /dev/block/mmcblk0p11
-
-    stop mpdecision
-
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_slack
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_slack
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/target_loads
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/target_loads
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/boost
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/boost
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/input_boost
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/input_boost
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-
-    #Quad Core
-    chown root system /sys/devices/system/cpu/cpu1/online
-    chown root system /sys/devices/system/cpu/cpu2/online
-    chown root system /sys/devices/system/cpu/cpu3/online
-    chmod 664 /sys/devices/system/cpu/cpu1/online
-    chmod 664 /sys/devices/system/cpu/cpu2/online
-    chmod 664 /sys/devices/system/cpu/cpu3/online
-    #Kernel Freq Core 1 
-    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    chmod 0444 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 300000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2265600
-    chmod 0444 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    chmod 0444 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    #Kernel Freq Core 2 
-    chmod 0644 /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
-    chmod 0444 /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
-    chmod 0444 /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
-    chmod 0444 /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
-    #Kernel Freq Core 3 
-    chmod 0644 /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
-    chmod 0444 /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
-    chmod 0444 /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
-    chmod 0444 /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
-    #Kernel Freq Core 4  
-    chmod 0644 /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
-    chmod 0444 /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
-    chmod 0444 /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
-    chmod 0444 /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
+    mount debugfs debugfs /sys/kernel/debug
+    chmod 0755 /sys/kernel/debug
 
     # Configure the hardware properly
     write /sys/module/lpm_levels/enable_low_power/l2 4
@@ -125,9 +58,13 @@ on early-init
     write /sys/module/msm_pm/modes/cpu1/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu2/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu3/retention/idle_enabled 1
+    write /sys/module/msm_pm/modes/cpu0/retention/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu1/retention/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu2/retention/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu3/retention/suspend_enabled 1
+    write /sys/module/msm_thermal/core_control/enabled 1
 
-    write /sys/module/msm_thermal/core_control/enabled 0
-
+    # Configure the CPU governor
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
@@ -138,8 +75,6 @@ on early-init
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "19000 1400000:39000 1700000:19000"
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 110
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1190400
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90 1800000:70"
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 39000
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
@@ -150,40 +85,19 @@ on early-init
 
     write /sys/module/msm_thermal/core_control/enabled 0
 
-    # cpu-boost
-    write /sys/module/cpu_boost/parameters/boost_ms 0
-    write /sys/module/cpu_boost/parameters/input_boost_ms 0
-    write /sys/module/cpu_boost/parameters/sync_threshold 0
-    write /sys/module/cpu_boost/parameters/input_boost_freq 0
+    # Configure the cpu-boost module
+    write /sys/module/cpu_boost/parameters/boost_ms 10
+    write /sys/module/cpu_boost/parameters/sync_threshold 1728000
+    write /sys/module/cpu_boost/parameters/input_boost_freq 1497600
+    write /sys/module/cpu_boost/parameters/input_boost_ms 40
+    write /sys/module/cpu_boost/parameters/plug_boost_freq 1728000
+    write /sys/module/cpu_boost/parameters/plug_boost_ms 5
 
-    write /sys/module/cpu_boost/parameters/migration_load_threshold 20
-    chown system system /sys/module/cpu_boost/parameters/input_boost_ms
-    chmod 664 /sys/module/cpu_boost/parameters/input_boost_ms
-
-    write /sys/class/devfreq/qcom,cpubw.34/governor "msm_cpufreq"
-    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
-
-    #Simple GPU Algorithm
-    write /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate 1
-    write /sys/module/simple_gpu_algorithm/parameters/simple_ramp_threshold 4000
-    write /sys/module/simple_gpu_algorithm/parameters/simple_laziness 6 
-
-    #Intelliplug
-    write /sys/module/intelli_plug/parameters/cpu_nr_run_threshold 853  
-    write /sys/module/intelli_plug/parameters/intelli_plug_active 1      
-    write /sys/module/intelli_plug/parameters/nr_run_hysteresis 7                         
-    write /sys/module/intelli_plug/parameters/nr_run_profile_sel 0                          
-    write /sys/module/intelli_plug/parameters/touch_boost_active 1    
-    #write /sys/module/intelli_plug/parameters/screen_off_max
-    #write /sys/module/intelli_plug/parameters/nr_possible_cores
-
-    chmod 0755 /init.kgms.sh
 
 on init
     # Set permissions for persist partition
     mkdir /persist 0771 system system
 
-    # Support legacy paths
     symlink /sdcard /storage/sdcard0
 
 
@@ -201,7 +115,15 @@ on early-boot
     symlink /dev/graphics/fb1 /dev/graphics/hdmi
     chown system system /sys/class/graphics/fb1/format_3d
 
+    # Remove symlinks to avoid issues with migrate after nandroid restores
+    # Will be recreated at end of boot
+    rm /data/data/com.android.providers.telephony/databases/telephony.db
+    rm /data/data/com.android.providers.telephony/shared_prefs/preferred-apn.xml
+
 on boot
+
+
+    mount debugfs /sys/kernel/debug /sys/kernel/debug
 
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -241,13 +163,6 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
-    #Create PERFD deamon related dirs
-    mkdir /data/misc/perfd 0755 root system
-    chmod 2755 /data/misc/perfd
-    mkdir /data/system/perfd 0770 root system
-    chmod 2770 /data/system/perfd
-    mkdir /persist/drm 0770 system system
-
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
 
@@ -258,8 +173,8 @@ on boot
 
     # Assign TCP buffer thresholds to be ceiling value of technology maximums
     # Increased technology maximums should be reflected here.
-    write /proc/sys/net/core/rmem_max  2097152
-    write /proc/sys/net/core/wmem_max  2097152
+    write /proc/sys/net/core/rmem_max  8388608
+    write /proc/sys/net/core/wmem_max  8388608
 
     #To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
@@ -291,15 +206,8 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
-    # Enable adaptive LMK and set vmpressure_file_min
-    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
-    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
-    write /sys/module/lowmemorykiller/parameters/debug_level 0
-
 # msm specific files that need to be created on /data
 on post-fs-data
-    # Create directory for TZ Apps
-    mkdir /data/misc/qsee 0770 system system
 
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
 
@@ -330,31 +238,10 @@ on post-fs-data
     chmod 0660 /efs/wifi/.mac.info
     restorecon /efs/wifi/.mac.info
 
-    # for WIFI Version
-    write /data/.wifiver.info 0
-    chown system root /data/.wifiver.info
-    chmod 0666 /data/.wifiver.info
-
-    # Create the directories used by CnE subsystem
-    mkdir /data/connectivity 0771 system system
-    chown system system /data/connectivity
-
-    # Create the directories used by DPM subsystem
-    mkdir /data/dpm 0771 system system
-    chown system system /data/dpm
-
-    mkdir /data/dpm/nsrm 0771 system system
-    hown system system /data/dpm/nsrm
 
     # Create directory used by audio subsystem
     mkdir /data/misc/audio 0770 audio audio
     restorecon_recursive /data/misc/audio
-
-    # Create directory used by the DASH client
-    mkdir /data/misc/dash 0770 media audio
-
-    # Create directory used by display clients
-    mkdir /data/misc/display 0770 root system
 
     # Mounting of persist is moved to 'on emmc-fs' and 'on fs' sections
     # We chown/chmod /persist again so because mount is run as root + defaults
@@ -370,18 +257,15 @@ on post-fs-data
     chown system system /sys/devices/platform/msm_sdcc.2/polling
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
-    
+
     # For disabling softkeys *FIXME*
     chown root system  /sys/class/sec/sec_touchkey/brightness
     chmod 0664  /sys/class/sec/sec_touchkey/brightness
     chown root system  /sys/class/sec/sec_touchkey/max_brightness
     chmod 0664  /sys/class/sec/sec_touchkey/max_brightness
 
-# Touchscreen
-    chmod 0660 /sys/class/input/input4/enabled
-    chown system system /sys/class/input/input4/enabled
-
-    chmod 0660 /sys/class/leds/torch-sec1/brightness
+    # Torch
+    chmod 0666 /sys/class/leds/torch-sec1/brightness
     chown system camera /sys/class/leds/torch-sec1/brightness
 
     chown system system /sys/class/sec/sec_touchkey/keypad_enable
@@ -389,8 +273,6 @@ on post-fs-data
     restorecon /sys/class/sec/sec_touchkey/keypad_enable
 
 # permission for Input Device(Touchkey).
-    chmod 0660 /sys/class/input/input1/enabled
-    chown system system /sys/class/input/input1/enabled
     chmod 0660 /sys/class/input/input2/enabled
     chown system system /sys/class/input/input2/enabled
     chown radio system /sys/class/sec/sec_touchkey/touch_sensitivity
@@ -400,8 +282,9 @@ on post-fs-data
     chown system radio /sys/class/sec/sec_touchkey/boost_level
 
 # permission for Input Device(Wacom).
-    chmod 0664 /sys/class/input/input16/enabled
-    chown system input /sys/class/input/input16/enabled
+    chmod 0660 /sys/class/input/input4/enabled
+    chown system system /sys/class/input/input4/enabled
+    chown system system /sys/class/input/input18/enabled
 
 # permissions for S-Pen
     chmod 0660 /sys/class/input/input3/enabled
@@ -435,6 +318,14 @@ on post-fs-data
     chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
+
+    # Power Hal Permissions
+    chown system system /sys/class/input/input2/enabled
+    chown system system /sys/class/input/input3/enabled
+    chown system system /sys/class/input/input18/enabled
+    chmod 0660 /sys/class/input/input2/enabled
+    chmod 0660 /sys/class/input/input3/enabled
+    chmod 0660 /sys/class/input/input18/enabled
 
     # Vibrator
     chmod 0644 /sys/class/timed_output/vibrator/pwm_value
@@ -512,6 +403,7 @@ on post-fs-data
     chmod 0640 /efs/gyro_cal_data
     restorecon /efs/gyro_cal_data
 
+
 service irsc_util /system/bin/irsc_util "/etc/sec_config"
     class main
     user root
@@ -520,6 +412,7 @@ service irsc_util /system/bin/irsc_util "/etc/sec_config"
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
+    group system
 
 on property:ro.boot.emmc=true
     start rmt_storage
@@ -587,27 +480,31 @@ service p2p_supplicant /system/bin/wpa_supplicant \
     oneshot
 
 service macloader /system/bin/macloader
-    class main
+    class late_start
     oneshot
 
+on property:wlan.driver.status=ok
+    start macloader
+
 on property:init.svc.macloader=stopped
-    chown system root /data/.cid.info
-    chmod 0664 /data/.cid.info
     chown system root /data/.rev
     chmod 0664 /data/.rev
 # end of wifi
 
-service wifi-crda /system/bin/sh /system/etc/init.crda.sh
-   class late_start
-   user root
-   disabled
-   oneshot
-
 on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/scheduler row
 
-# Post boot services
-    stop mpdecision
+    # post boot
+    setprop sys.perf.profile 1
+
+    # Symlink telephony.db and preferred-apn.xml
+    mkdir /data/data/com.android.providers.telephony/databases 0700 radio radio
+    mkdir /data/data/com.android.providers.telephony/shared_prefs 0700 radio radio
+    symlink /data/user_de/0/com.android.providers.telephony/databases/telephony.db /data/data/com.android.providers.telephony/databases/telephony.db
+    symlink /data/user_de/0/com.android.providers.telephony/shared_prefs/preferred-apn.xml /data/data/com.android.providers.telephony/shared_prefs/preferred-apn.xml
+
+on property:sys.boot_completed=0
+    setprop sys.perf.profile 2
 
 service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
     class late_start
@@ -655,9 +552,3 @@ on property:persist.sys.ssr.restart_level=3
     write /sys/bus/msm_subsys/devices/subsys1/restart_level related
     write /sys/bus/msm_subsys/devices/subsys2/restart_level related
     write /sys/bus/msm_subsys/devices/subsys3/restart_level related
-
-service kgms /system/bin/sh /init.kgms.sh
-    class late_start
-    user root
-    group root
-    oneshot

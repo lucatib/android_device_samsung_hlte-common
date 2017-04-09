@@ -40,7 +40,6 @@ import com.android.internal.telephony.gsm.SmsBroadcastConfigInfo;
 import com.android.internal.telephony.cdma.CdmaInformationRecords;
 import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
 import com.android.internal.telephony.cdma.SignalToneUtil;
-import com.android.internal.telephony.uicc.IccUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ import java.util.Collections;
 
 import com.android.internal.telephony.uicc.IccCardApplicationStatus;
 import com.android.internal.telephony.uicc.IccCardStatus;
+import com.android.internal.telephony.uicc.IccUtils;
 
 /**
  * Qualcomm RIL for the Samsung msm8974 family.
@@ -292,7 +292,7 @@ public class hlteRIL extends RIL implements CommandsInterface {
 
     @Override
     protected void
-    processUnsolicited (Parcel p,int type) {
+    processUnsolicited (Parcel p, int type) {
         Object ret;
         int dataPosition = p.dataPosition(); // save off position within the Parcel
         int response = p.readInt();
@@ -339,7 +339,7 @@ public class hlteRIL extends RIL implements CommandsInterface {
                 p.setDataPosition(dataPosition);
 
                 // Forward responses that we are not overriding to the super class
-                super.processUnsolicited(p,type);
+                super.processUnsolicited(p, type);
                 return;
         }
 
@@ -360,7 +360,7 @@ public class hlteRIL extends RIL implements CommandsInterface {
 
     @Override
     protected RILRequest
-    processSolicited (Parcel p,int type) {
+    processSolicited (Parcel p, int type) {
         int serial, error;
         boolean found = false;
         int dataPosition = p.dataPosition(); // save off position within the Parcel
@@ -394,7 +394,7 @@ public class hlteRIL extends RIL implements CommandsInterface {
             /* Nothing we care about, go up */
             p.setDataPosition(dataPosition);
             // Forward responses that we are not overriding to the super class
-            return super.processSolicited(p,type);
+            return super.processSolicited(p, type);
         }
         rr = findAndRemoveRequestFromList(serial);
         if (rr == null) {

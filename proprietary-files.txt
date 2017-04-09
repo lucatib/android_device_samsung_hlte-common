@@ -238,10 +238,11 @@ vendor/lib/libthermalioctl.so
 
 # DRM
 bin/qseecomd
+lib/libdrmdecrypt.so
 lib/libhdcp2.so
 lib/libstagefright_hdcp.so
 vendor/lib/libWVStreamControlAPI_L1.so
-vendor/lib/libwvm.so
+lib/libwvm.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
 vendor/lib/librpmb.so
@@ -250,49 +251,50 @@ vendor/lib/libQSEEComAPI.so
 vendor/lib/libwvdrm_L1.so
 vendor/lib/liboemcrypto.so
 vendor/lib/mediadrm/libwvdrmengine.so
-vendor/lib/drm/libdrmwvmplugin.so
-vendor/lib/libdrmdecrypt.so
+lib/libdrmdecrypt.so
 lib/drm/libfwdlockengine.so
 vendor/lib/rfsa/adsp/libdspCV_skel.so
 vendor/lib/rfsa/adsp/libfastcvadsp.so
 vendor/lib/rfsa/adsp/libfastcvadsp_skel.so
 vendor/lib/rfsa/adsp/libscveT2T_skel.so
 
-# Graphics (N from vendor_qcom_binaries)
+# Graphics
 vendor/lib/egl/eglsubAndroid.so
 vendor/lib/egl/libEGL_adreno.so
 vendor/lib/egl/libGLESv1_CM_adreno.so
 vendor/lib/egl/libGLESv2_adreno.so
 vendor/lib/egl/libq3dtools_adreno.so
-vendor/lib/libC2D2.so
-vendor/lib/libCB.so
-vendor/lib/libOpenCL.so
-vendor/lib/libRSDriver_adreno.so
 vendor/lib/libadreno_utils.so
 vendor/lib/libbccQTI.so
+vendor/lib/libC2D2.so
 vendor/lib/libc2d30-a3xx.so
+vendor/lib/libCB.so
 vendor/lib/libgsl.so
 vendor/lib/libllvm-qcom.so
 vendor/lib/librs_adreno.so
 vendor/lib/librs_adreno_sha1.so
+vendor/lib/libRSDriver_adreno.so
 vendor/lib/libsc-a3xx.so
+vendor/lib/libOpenCL.so
 vendor/lib/libscale.so
-vendor/lib/libuiblur.so
 
 # Graphics firmware
 etc/firmware/a330_pfp.fw
 etc/firmware/a330_pm4.fw
+
+#GPS
+lib/hw/gps.msm8974.so
+lib/libgps.utils.so
+lib/libloc_eng.so
+lib/libloc_core.so
 
 # IPC router security
 etc/sec_config
 bin/irsc_util
 
 # Media
-vendor/lib/libDivxDrm.so
 vendor/lib/libI420colorconvert.so
 vendor/lib/libmm-color-convertor.so
-vendor/lib/libmmosal.so
-vendor/lib/libSHIMDivxDrm.so
 vendor/lib/libOmxAacDec.so
 vendor/lib/libOmxAmrwbplusDec.so
 vendor/lib/libOmxEvrcDec.so
