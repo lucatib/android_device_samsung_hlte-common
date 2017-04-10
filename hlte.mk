@@ -77,7 +77,7 @@ PRODUCT_PACKAGES += \
     Snap
 
 # Gello
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
     Gello
 
 PRODUCT_COPY_FILES += \
@@ -92,7 +92,6 @@ PRODUCT_COPY_FILES += \
 # IR
 PRODUCT_PACKAGES += \
     consumerir.msm8974
-
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
